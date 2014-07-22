@@ -1,52 +1,64 @@
-                  {%comment%}
-                    The code above stores the handle of the product for which we want to change the product price on fly.
-                  {%endcomment%}
+{%comment%}
+The code above stores the handle of the product for which we want to change the product price on fly.
+{%endcomment%}
 
-                  <input type="hidden" id="prodHandle" value="{{ product.handle }}"/>
-
-
+<input type="hidden" id="prodHandle" value="{{ product.handle }}"/>
 
 
 
-                  <script type="text/javascript">
-                  
-                    
-                    // This code will change the normal price to EU price like 2000 to €20.00
 
 
-                    function change_to_money(money_old){
-                      var b = ".";
-                      var c = "Summe €";
-                      var position = (money_old.toString()).length;
-                      
-                      var output_ = [c, (money_old).toString().slice(0, position-2), b, (money_old).toString().slice(position-2,position)].join('');
-                      return output_.toString();
-                      //alert("test");
-                    }
-                    
-                    
+In the product page, I have these two buttons that are used to increase or decrease the quantity of products.
+
+<div id="minus" class="buttonminus">
+</div>
+<input class="mengeinput" name="quantity"  value="1" id="quantity">
+
+<div id="plus" class="buttonplus">
+</div>
+
+
+In the JavaScript code for the onclick action for each of the divs above, I have added the update_prod_price function that is trigerred and the ajax code is executed. 
+
+
+<script type="text/javascript">
+
+
+// This code will change the normal price to EU price like 2000 to €20.00
+
+
+function change_to_money(money_old){
+var b = ".";
+var c = "Summe €";
+var position = (money_old.toString()).length;
+
+var output_ = [c, (money_old).toString().slice(0, position-2), b, (money_old).toString().slice(position-2,position)].join('');
+return output_.toString();
+//alert("test");
+}
 
 
 
-                    function update_prod_price(){
-                    
-                  	var prodHandle_ = document.getElementById("prodHandle").value;
-                    console.log(prodHandle_);
-				
-                    var final_handle = "/products/".concat(prodHandle_,".js");
-                    
-                    console.log(final_handle);
-                    jQuery.getJSON(final_handle, function(product) {
 
-                      var quan_ =  document.getElementById("quantity").value;
-                      var total_ = product.price * quan_; 
-                      
-                      document.getElementById("tot_price_").innerHTML = change_to_money(total_);
-                      // alert(change_to_money(total_));
-                      
-                    } );
-                    
-                    }
-                    
-                  </script>
-          
+
+function update_prod_price(){
+
+var prodHandle_ = document.getElementById("prodHandle").value;
+console.log(prodHandle_);
+
+var final_handle = "/products/".concat(prodHandle_,".js");
+
+console.log(final_handle);
+jQuery.getJSON(final_handle, function(product) {
+
+var quan_ =  document.getElementById("quantity").value;
+var total_ = product.price * quan_; 
+
+document.getElementById("tot_price_").innerHTML = change_to_money(total_);
+// alert(change_to_money(total_));
+
+} );
+
+}
+
+</script>
